@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.nadia.test_db">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/icon3"
+        android:label="Ma bibliothèque"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AddBook"
+            android:label="Ajout d'un Livre" />
+        <activity android:name=".DisplayListBooks"
+            android:label="Ma bibliothèque"/>
+        <activity android:name=".SearchIsbn"
+            android:label="Chercher un livre" />
+
+        <activity
+            android:name=".com.google.zxing.integration.android.Scanne"
+            android:label="scanner un livre" >
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/grisBackground">
+
+
+        <ImageView
+            android:id="@+id/android_picture"
+            android:layout_width="fill_parent"
+            android:layout_height="130dp"
+            android:src="@drawable/icon3"
+            android:paddingTop="45dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonAdd"
+            android:layout_gravity="center"
+            android:text="Ajouter un livre"
+            android:layout_marginBottom="25dp"
+            android:padding="15dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonDisplay"
+            android:layout_gravity="center"
+            android:text="Ma bibliothèque"
+            android:padding="15dp"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonScanIsbn"
+            android:layout_gravity="center"
+            android:text="Scanner un ISBN"
+            android:padding="15dp"
+            android:layout_marginTop="25dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSearchIsbn"
+            android:layout_gravity="center"
+            android:text="Chercher un Livre"
+            android:padding="15dp"
+            android:layout_marginTop="25dp"/>
+
+
+</LinearLayout>
