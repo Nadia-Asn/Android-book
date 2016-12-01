@@ -22,7 +22,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     // Database Name
     private static final String DATABASE_NAME = "BookDB";
 
@@ -39,7 +39,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "isbn TEXT, " +
                 "title TEXT, " +
-                "author TEXT )";
+                "author TEXT, " +
+                "date TEXT, " +
+                "description TEXT )";
 
         // create books table
         db.execSQL(CREATE_BOOK_TABLE);
@@ -70,12 +72,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_ISBN = "isbn";
     private static final String KEY_TITLE = "title";
     private static final String KEY_AUTHOR = "author";
+    private static final String KEY_DATE = "date";
+    private static final String KEY_DESCRIPTION = "description";
 
     private static final String[] COLUMNS = {
             KEY_ID,
             KEY_ISBN,
             KEY_TITLE,
-            KEY_AUTHOR
+            KEY_AUTHOR,
+            KEY_DATE,
+            KEY_DESCRIPTION
     };
 
     public void addBook(Book book){
@@ -88,6 +94,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_ISBN, book.getIsbn());
         values.put(KEY_TITLE, book.getTitle()); // get title
         values.put(KEY_AUTHOR, book.getAuthor()); // get author
+        values.put(KEY_DATE, book.getDate()); // get date
+        values.put(KEY_DESCRIPTION, book.getDescription()); // get description
 
         // 3. insert
         db.insert(TABLE_BOOKS, // table
@@ -126,6 +134,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         book.setIsbn(cursor.getString(1));
         book.setTitle(cursor.getString(2));
         book.setAuthor(cursor.getString(3));
+        book.setDate(cursor.getString(4));
+        book.setDescription(cursor.getString(5));
 
         Log.d("getBook("+title+")", book.toString());
 
@@ -153,6 +163,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 book.setIsbn(cursor.getString(1));
                 book.setTitle(cursor.getString(2));
                 book.setAuthor(cursor.getString(3));
+                book.setDate(cursor.getString(4));
+                book.setDescription(cursor.getString(5));
 
                 // Add book to books
                 books.add(book);

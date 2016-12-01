@@ -16,11 +16,13 @@ public class Book {
     public Book() {
     }
 
-    public Book( String isbn, String title, String author) {
+    public Book( String isbn, String title, String author, String date, String description) {
         super();
         this.isbn = isbn;
         this.title = title;
         this.author = author;
+        this.date = date;
+        this.description = description;
     }
 
     //getters & setters

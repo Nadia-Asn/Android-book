@@ -26,6 +26,8 @@ public class AddBook extends AppCompatActivity {
     EditText t5;
     MySQLiteHelper db = new MySQLiteHelper(this);
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,8 @@ public class AddBook extends AppCompatActivity {
         t1 = (EditText) findViewById(R.id.isbn);
         t2 = (EditText) findViewById(R.id.title);
         t3 = (EditText) findViewById(R.id.author);
-        t4 = (EditText) findViewById(R.id.date_creation);
+        t4 = (EditText) findViewById(R.id.date);
+        t5 = (EditText) findViewById(R.id.description);
 
         final Context context = this;
 
@@ -53,9 +56,11 @@ public class AddBook extends AppCompatActivity {
                                      String s = t1.getText().toString();
                                      String s1 = t2.getText().toString();
                                      String s2 = t3.getText().toString();
+                                     String s3 = t4.getText().toString();
+                                     String s4 = t5.getText().toString();
                                      try {
                                          if((s != null && s.length() > 0) && (s1 != null && s.length() > 0) && (s2 != null && s.length() > 0)){
-                                             db.addBook(new Book(s,s1,s2));
+                                             db.addBook(new Book(s,s1,s2,s3,s4));
                                              Intent i = new Intent(context, DisplayListBooks.class);
                                              startActivity(i);
                                              }
