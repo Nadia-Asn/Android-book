@@ -2,5 +2,6 @@
     <string name="app_name">Test_db</string>
     <string name="thumb">Book thumbnail</string>
     <string name="pre">Preview</string>
+    <string name="ajouter">Ajouter</string>
     <string name="link">Web</string>
 </resources>

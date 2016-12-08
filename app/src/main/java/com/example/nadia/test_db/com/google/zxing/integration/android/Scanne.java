@@ -1,6 +1,7 @@
 package com.example.nadia.test_db.com.google.zxing.integration.android;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,9 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.nadia.test_db.Book;
+import com.example.nadia.test_db.DataBase.MySQLiteHelper;
+import com.example.nadia.test_db.DisplayListBooks;
 import com.example.nadia.test_db.R;
 
 import java.io.BufferedInputStream;
@@ -44,7 +48,7 @@ public class Scanne extends AppCompatActivity  {
 
     // ID CLIENT GOOGLE : 106782679686-cmsevpnnmr49mj5o6s671chbdu3ki3if.apps.googleusercontent.com
     // CLE d'API : AIzaSyAKipAT4jhpxgqXb_9QWN6-lEuAoc97IYI
-    private Button scan_btn, previewBtn, linkBtn;
+    private Button scan_btn, ajouterBtn;
     private TextView formatTxt, contentTxt;
     private TextView  ratingCountText;
     private EditText titleText ,authorText, descriptionText, dateText, isbnText;
@@ -53,6 +57,8 @@ public class Scanne extends AppCompatActivity  {
     private ImageView[] starViews;
 
     private Bitmap thumbImg;
+
+    MySQLiteHelper db = new MySQLiteHelper(this);
 
 
     @Override
@@ -65,18 +71,16 @@ public class Scanne extends AppCompatActivity  {
         formatTxt = (TextView)findViewById(R.id.scan_format);
         contentTxt = (TextView)findViewById(R.id.scan_content);
 
-        previewBtn = (Button)findViewById(R.id.preview_btn);
+        ajouterBtn = (Button)findViewById(R.id.ajouter_btn);
 
-        previewBtn.setVisibility(View.GONE);
-        //previewBtn.setOnClickListener(this);
-        linkBtn = (Button)findViewById(R.id.link_btn);
-        linkBtn.setVisibility(View.GONE);
-        //linkBtn.setOnClickListener(this);
+        ajouterBtn.setVisibility(View.GONE);
+        //ajouterBtn.setOnClickListener(this);
 
         authorText = (EditText) findViewById(R.id.book_author);
         titleText = (EditText) findViewById(R.id.book_title);
         descriptionText = (EditText) findViewById(R.id.book_description);
         dateText = (EditText) findViewById(R.id.book_date);
+        isbnText = (EditText) findViewById(R.id.isbn);
         starLayout = (LinearLayout)findViewById(R.id.star_layout);
         ratingCountText = (TextView)findViewById(R.id.book_rating_count);
         thumbView = (ImageView)findViewById(R.id.thumb);
@@ -89,6 +93,35 @@ public class Scanne extends AppCompatActivity  {
                     // lancer le scanner au clic sur le boutton scan
                     IntentIntegrator scanIntegrator = new IntentIntegrator(Scanne.this);
                     scanIntegrator.initiateScan();
+                }
+            }
+        });
+
+        ajouterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getId()==R.id.ajouter_btn){
+
+                    // ajouter les informations du livre
+                    Context context = getApplicationContext();
+
+                    String author = authorText.getText().toString();
+                    String title = titleText.getText().toString();
+                    String description = descriptionText.getText().toString();
+                    String date = dateText.getText().toString();
+                    String isbn = "9796586909";
+                    try {
+                        if((author != null && author.length() > 0) && (title != null && title.length() > 0)){
+                            db.addBook(new Book(isbn,title,author,date, description));
+
+                            Intent i = new Intent(context, DisplayListBooks.class);
+                            startActivity(i);
+                        }
+                        else {Toast.makeText(context,"Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();}
+                    }
+                    catch (Exception e) {
+                        Toast.makeText(context,"Veuillez remplir tous les champs 2 ", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -192,7 +225,6 @@ public class Scanne extends AppCompatActivity  {
 
             try{
             //parse results
-                previewBtn.setVisibility(View.VISIBLE);
 
                 JSONObject resultObject = new JSONObject(result);
                 JSONArray bookArray = resultObject.getJSONArray("items");
@@ -262,24 +294,15 @@ public class Scanne extends AppCompatActivity  {
                 }
 
 
-                try{
-                    boolean isEmbeddable = Boolean.parseBoolean
-                            (bookObject.getJSONObject("accessInfo").getString("embeddable"));
-                    if(isEmbeddable) previewBtn.setEnabled(true);
-                    else previewBtn.setEnabled(false);
-                }
-                catch(JSONException jse){
-                    previewBtn.setEnabled(false);
-                    jse.printStackTrace();
-                }
+
 
 
                 try{
-                    linkBtn.setTag(volumeObject.getString("infoLink"));
-                    linkBtn.setVisibility(View.VISIBLE);
+                    ajouterBtn.setTag(volumeObject.getString("infoLink"));
+                    ajouterBtn.setVisibility(View.VISIBLE);
                 }
                 catch(JSONException jse){
-                    linkBtn.setVisibility(View.GONE);
+                    ajouterBtn.setVisibility(View.GONE);
                     jse.printStackTrace();
                 }
 
@@ -305,7 +328,7 @@ public class Scanne extends AppCompatActivity  {
                 starLayout.removeAllViews();
                 ratingCountText.setText("");
                 thumbView.setImageBitmap(null);
-                previewBtn.setVisibility(View.GONE);
+                ajouterBtn.setVisibility(View.GONE);
             }
 
         }

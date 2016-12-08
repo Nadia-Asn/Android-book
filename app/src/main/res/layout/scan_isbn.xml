@@ -84,19 +84,16 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
             <Button
-                android:id="@+id/preview_btn"
+                android:id="@+id/ajouter_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pre" />
+                android:layout_gravity="center"
+                android:text="@string/ajouter" />
 
-            <Button
-                android:id="@+id/link_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/link" />
         </LinearLayout>
 
 
