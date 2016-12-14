@@ -1,10 +1,13 @@
-package com.example.nadia.test_db;
+package com.example.nadia.test_db.Collection;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 /**
  * Created by Nadia on 09/11/2016.
  */
 
-public class Book {
+public class Book extends Collection{
 
     private int id;
     private String isbn;
@@ -12,6 +15,7 @@ public class Book {
     private String author;
     private String date;
     private String description;
+    private byte[] image;
 
     public Book() {
     }
@@ -23,6 +27,16 @@ public class Book {
         this.author = author;
         this.date = date;
         this.description = description;
+    }
+
+    public Book( String isbn, String title, String author, String date, String description,byte[] image) {
+        super();
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.date = date;
+        this.description = description;
+        this.image=image;
     }
 
     //getters & setters
@@ -66,6 +80,18 @@ public class Book {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public Bitmap getImageTotal(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
 
     @Override
     public String toString() {

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.example.nadia.test_db.Collection.Book;
 import com.example.nadia.test_db.DataBase.MySQLiteHelper;
 
 import java.util.ArrayList;

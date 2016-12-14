@@ -1,12 +1,9 @@
 package com.example.nadia.test_db.com.google.zxing.integration.android;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +24,7 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.nadia.test_db.Book;
+import com.example.nadia.test_db.Collection.Book;
 import com.example.nadia.test_db.DataBase.MySQLiteHelper;
 import com.example.nadia.test_db.DisplayListBooks;
 import com.example.nadia.test_db.R;
@@ -40,13 +37,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.net.Uri;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public class Scanne extends AppCompatActivity  {
 
-    // ID CLIENT GOOGLE : 106782679686-cmsevpnnmr49mj5o6s671chbdu3ki3if.apps.googleusercontent.com
+
     // CLE d'API : AIzaSyAKipAT4jhpxgqXb_9QWN6-lEuAoc97IYI
     private Button scan_btn, ajouterBtn;
     private TextView formatTxt, contentTxt;
