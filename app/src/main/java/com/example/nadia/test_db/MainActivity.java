@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonDisplay).setOnClickListener(this);
         findViewById(R.id.buttonSearchIsbn).setOnClickListener(this);
         findViewById(R.id.buttonScanIsbn).setOnClickListener(this);
+        findViewById(R.id.buttonCollection).setOnClickListener(this);
 
     }
     // Lunching a new activity : Adding a book - Displaying a the map of the books
@@ -47,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //If button scan clicked
         if (v.getId() == R.id.buttonScanIsbn){
             Intent intent = new Intent(this, Scanne.class);
+            startActivity(intent);
+        }
+        if (v.getId() == R.id.buttonCollection){
+            Intent intent=new Intent(this,CollectionActivity.class);
             startActivity(intent);
         }
     }

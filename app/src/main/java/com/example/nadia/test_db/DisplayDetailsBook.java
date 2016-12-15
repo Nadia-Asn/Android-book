@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.nadia.test_db.Collection.Book;
 import com.example.nadia.test_db.DataBase.MySQLiteHelper;
+import android.support.v7.widget.Toolbar;
+
 
 /**
  * Created by Nadia on 09/11/2016.
@@ -28,6 +30,16 @@ public class DisplayDetailsBook extends AppCompatActivity{
         setContentView(R.layout.display_details_book);
 
         final int id=(int)getIntent().getIntExtra("id",-1);
+        Button buttonCollection=(Button)findViewById(R.id.addCategoryLivre);
+        buttonCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(DisplayDetailsBook.this,ListToAddBookCollectionActivity.class);
+                //Log.i("id",id);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
 
         //bouton delete book
         Button b= (Button)findViewById(R.id.delete_btn);
@@ -62,6 +74,11 @@ public class DisplayDetailsBook extends AppCompatActivity{
 
             }
         });
+
+
+
+
+
     }
 
 

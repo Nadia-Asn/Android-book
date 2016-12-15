@@ -28,6 +28,18 @@
             android:label="Chercher un livre" />
         <activity android:name=".DisplayDetailsBook"
             android:label="Détails du livre" />
+        <activity android:name=".ListToAddBookCollectionActivity"
+            android:label="Ajout d'un livre à une catégorie" />
+        <activity android:name=".DisplayListCollectionActivity"
+            android:label="Liste des collections " />
+
+        <activity android:name=".ListBookCollectionDisplayActivity"
+            android:label="Liste des collections2" />
+        <activity android:name=".NewCollectionActivity"
+            android:label="Ajout d'une nouvelle collection" />
+        <activity android:name=".CollectionActivity"
+            android:label="Gestion des collections" />
+
 
         <activity
             android:name=".com.google.zxing.integration.android.Scanne"

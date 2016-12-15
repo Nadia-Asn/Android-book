@@ -4,4 +4,6 @@
     <string name="pre">Preview</string>
     <string name="ajouter">Ajouter</string>
     <string name="link">Web</string>
+    <string name="title_activity_new_category">NewCategoryActivity</string>
+    <string name="title_activity_display_book">DisplayBookActivity</string>
 </resources>

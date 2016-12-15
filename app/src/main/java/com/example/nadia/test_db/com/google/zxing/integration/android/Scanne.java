@@ -1,6 +1,7 @@
 package com.example.nadia.test_db.com.google.zxing.integration.android;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -314,6 +317,8 @@ public class Scanne extends AppCompatActivity  {
 
 
             }
+
+
             catch (Exception e) {
             //no result
                 e.printStackTrace();

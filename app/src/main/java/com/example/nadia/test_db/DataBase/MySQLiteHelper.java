@@ -73,7 +73,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             +KEY_NAME_COLLECTION+" TEXT NOT NULL );";
 
     private static final String CREATE_BOOKCOL="CREATE TABLE IF NOT EXISTS "+ TABLE_BC+ " ("
-            +KEY_BC_BOOK+ " INTEGER NOT NULL, " +KEY_BC_COL+" INTEGER NOT NULL,"
+            +KEY_BC_BOOK+ " INTEGER NOT NULL, " +KEY_ID_COLLECTION+" INTEGER NOT NULL,"
             +" FOREIGN KEY ("+KEY_BC_BOOK+") REFERENCES "+TABLE_BOOKS+" ("+KEY_ID+"),"
             +" FOREIGN KEY ("+ KEY_BC_COL +") REFERENCES "+TABLE_COLLECTION+" ("+KEY_ID_COLLECTION+"));";
 
@@ -154,14 +154,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
     // Add of a new collection
-    public void addCollection(Collection collection){
+    public void addCollection(String collection){
         Log.d("addCollection", collection.toString());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ID_COLLECTION, collection.getId_col());
-        values.put(KEY_NAME_COLLECTION, collection.getCollection());
+        values.put(KEY_NAME_COLLECTION, collection);
 
         db.insert(TABLE_COLLECTION,
                 null,
@@ -260,6 +259,81 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // return book
         return book;
     }
+
+
+    public List<Collection> getAllCollection() {
+        List<Collection> collections = new LinkedList<Collection>();
+
+        // build the query
+        String query = "SELECT  * FROM " + TABLE_COLLECTION;
+
+        // get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // go over each row, build book and add it to list
+        Collection collection = null;
+        if (cursor.moveToFirst()) {
+            do {
+                collection= new Collection();
+                collection.setId_col(Integer.parseInt(cursor.getString(0)));
+                collection.setCollection(cursor.getString(1));
+                collections.add(collection);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllBooks()", collections.toString());
+
+        // return books
+        return collections;
+    }
+
+    public void addBookInCollection(String idBook,String idCollection){
+        Log.d("addBookInCOllection",idBook+" to "+idCollection);
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_BC_BOOK,idBook);
+        values.put(KEY_BC_COL, idCollection);
+        db.insert(TABLE_BC,
+                null,
+                values);
+        db.close();
+    }
+
+    // Get All Books
+    public List<Book> getBooksByCategory(String category) {
+        List<Book> books = new LinkedList<Book>();
+
+        // build the query
+        String query = "SELECT  * FROM " + TABLE_BOOKS + ","+TABLE_BC+" where "+KEY_ID+"="+KEY_BC_BOOK+" and "+KEY_BC_COL+"="+category;
+        // get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // go over each row, build book and add it to list
+        Book book = null;
+        if (cursor.moveToFirst()) {
+            do {
+                book = new Book();
+                book.setId(Integer.parseInt(cursor.getString(0)));
+                book.setIsbn(cursor.getString(1));
+                book.setTitle(cursor.getString(2));
+                book.setAuthor(cursor.getString(3));
+                book.setDate(cursor.getString(4));
+                book.setDescription(cursor.getString(5));
+                book.setImage(cursor.getBlob(5));
+
+                // Add book to books
+                books.add(book);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllBooks()", books.toString());
+
+        // return books
+        return books;
+    }
+
 
     // Get All Books
     public List<Book> getAllBooks() {

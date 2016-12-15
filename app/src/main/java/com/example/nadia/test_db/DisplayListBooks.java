@@ -42,12 +42,11 @@ public class DisplayListBooks extends AppCompatActivity {
         final MySQLiteHelper db = new MySQLiteHelper(this);
 
         // DELETE FOR TEST
-/*
-        List<Book> listBookToDelete = db.getAllBooks();
+
+        /*List<Book> listBookToDelete = db.getAllBooks();
         for (int i = 0; i < listBookToDelete.size(); i++) {
             db.deleteBook(listBookToDelete.get(i));
         }*/
-
 
         /**
          * CRUD Operations

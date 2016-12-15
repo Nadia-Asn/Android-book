@@ -32,3 +32,4 @@ public class Collection {
         this.collection = collection;
     }
 }
+

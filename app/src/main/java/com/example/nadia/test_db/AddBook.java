@@ -24,6 +24,7 @@ public class AddBook extends AppCompatActivity {
     EditText t3;
     EditText t4;
     EditText t5;
+
     MySQLiteHelper db = new MySQLiteHelper(this);
 
 
@@ -40,7 +41,9 @@ public class AddBook extends AppCompatActivity {
         t4 = (EditText) findViewById(R.id.date);
         t5 = (EditText) findViewById(R.id.description);
 
+
         final Context context = this;
+
 
 
 
