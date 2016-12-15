@@ -24,7 +24,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 6;
 
     // Database Name
     private static final String DATABASE_NAME = "BookDB";
@@ -56,7 +56,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     //association table 'book' & 'categorie'
     private static final String TABLE_BC="tableBC";
     private static final String KEY_BC_BOOK="id_book"; // id du livre
-    private static final String KEY_BC_CAT="id_cat"; // id categorie
+    private static final String KEY_BC_COL ="id_col"; // id categorie
 
 
     // creation of the book table
@@ -72,17 +72,17 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             +KEY_ID_COLLECTION+" INTEGER NOT NULL PRIMARY KEY, "
             +KEY_NAME_COLLECTION+" TEXT NOT NULL );";
 
-    private static final String CREATE_BOOKCAT="CREATE TABLE IF NOT EXISTS "+ TABLE_BC+ " ("
-            +KEY_BC_BOOK+ " INTEGER NOT NULL, " +KEY_BC_BOOK+" INTEGER NOT NULL,"
+    private static final String CREATE_BOOKCOL="CREATE TABLE IF NOT EXISTS "+ TABLE_BC+ " ("
+            +KEY_BC_BOOK+ " INTEGER NOT NULL, " +KEY_BC_COL+" INTEGER NOT NULL,"
             +" FOREIGN KEY ("+KEY_BC_BOOK+") REFERENCES "+TABLE_BOOKS+" ("+KEY_ID+"),"
-            +" FOREIGN KEY ("+KEY_BC_CAT+") REFERENCES "+TABLE_CATEGORIE+" ("+KEY_ID_CATEGORIE+"));";
+            +" FOREIGN KEY ("+ KEY_BC_COL +") REFERENCES "+TABLE_COLLECTION+" ("+KEY_ID_COLLECTION+"));";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
 
         // SQL statement to create book table
-        /*
+
         String CREATE_BOOK_TABLE = "CREATE TABLE books ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "isbn TEXT, " +
@@ -90,13 +90,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "author TEXT, " +
                 "date TEXT, " +
                 "description TEXT, " +
-                "image BLOB )";*/
+                "image BLOB )";
 
         // create books table
-        //db.execSQL(CREATE_BOOK_TABLE);
+        db.execSQL(CREATE_BOOK_TABLE);
 
         //create all the tables of db
-        db.execSQL(CREATE_BOOKS);
+        //db.execSQL(CREATE_BOOKS);
         db.execSQL(CREATE_CATEGORIES);
         db.execSQL(CREATE_COLLECTIONS);
     }
@@ -152,7 +152,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         //close db
         db.close();
     }
-
 
     // Add of a new collection
     public void addCollection(Collection collection){
@@ -218,9 +217,45 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         book.setAuthor(cursor.getString(3));
         book.setDate(cursor.getString(4));
         book.setDescription(cursor.getString(5));
-        book.setImage(cursor.getBlob(6));
+        //book.setImage(cursor.getBlob(6));
 
         Log.d("getBook("+title+")", book.toString());
+
+        // return book
+        return book;
+    }
+
+    public Book getBook(int id){
+
+        // get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // build query
+        Cursor cursor =
+                db.query(TABLE_BOOKS, // table
+                        COLUMNS, // column names
+                        " id = ?", // selections
+                        new String[] { String.valueOf(id) }, // selections args
+                        null, // group by
+                        null, // having
+                        null, // order by
+                        null); // limit
+
+        // if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        // build book object
+        Book book = new Book();
+        book.setId(Integer.parseInt(cursor.getString(0)));
+        book.setIsbn(cursor.getString(1));
+        book.setTitle(cursor.getString(2));
+        book.setAuthor(cursor.getString(3));
+        book.setDate(cursor.getString(4));
+        book.setDescription(cursor.getString(5));
+        //book.setImage(cursor.getBlob(6));
+
+        Log.d("getBook("+id+")", book.toString());
 
         // return book
         return book;
@@ -248,7 +283,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 book.setAuthor(cursor.getString(3));
                 book.setDate(cursor.getString(4));
                 book.setDescription(cursor.getString(5));
-                book.setImage(cursor.getBlob(5));
+                //book.setImage(cursor.getBlob(6));
 
                 // Add book to books
                 books.add(book);
@@ -259,6 +294,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // return books
         return books;
+    }
+
+    // Deleting a book
+    public int removeWithID(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_BOOKS, KEY_ID + " = " + id, null);
     }
 
     // Deleting single book

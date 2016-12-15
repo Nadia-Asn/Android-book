@@ -4,10 +4,16 @@ package com.example.nadia.test_db;
  * Created by Nadia on 09/11/2016.
  */
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.example.nadia.test_db.Collection.Book;
 import com.example.nadia.test_db.DataBase.MySQLiteHelper;
@@ -16,11 +22,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import android.widget.AdapterView.OnItemClickListener;
 
 
 public class DisplayListBooks extends AppCompatActivity {
 
     private ListView mListView;
+    private String labels ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,29 +39,14 @@ public class DisplayListBooks extends AppCompatActivity {
 
         mListView = (ListView) findViewById(R.id.display_book_listview);
 
+        final MySQLiteHelper db = new MySQLiteHelper(this);
 
-        MySQLiteHelper db = new MySQLiteHelper(this);
-
-
-        // FOR TEST
+        // DELETE FOR TEST
 /*
         List<Book> listBookToDelete = db.getAllBooks();
         for (int i = 0; i < listBookToDelete.size(); i++) {
             db.deleteBook(listBookToDelete.get(i));
-        }
-*/
-
-        // add Books : TEST
-        //db.addBook(new Book("1983973", "Sans famille", "Victor Hugo","12-2013", "Un matin comme les autres, Marc prépare le petit-déjeuner en famille. L'instant d'après, il se réveille sur un lit d'hôpital après douze jours de coma. Ce qui s'est passé entre-temps, deux inspecteurs de police venus à son chevet lui annoncent"));
-        //db.addBook(new Book("6397974", "La prisonière", "Naima Oufkir","09-2002", "Un matin comme les autres, Marc prépare le petit-déjeuner en famille. L'instant d'après, il se réveille sur un lit d'hôpital après douze jours de coma. Ce qui s'est passé entre-temps, deux inspecteurs de police venus à son chevet lui annoncent"));
-        //db.addBook(new Book("0099993", "La peste", "Albert Camus","03-2010", "Un matin comme les autres, Marc prépare le petit-déjeuner en famille. L'instant d'après, il se réveille sur un lit d'hôpital après douze jours de coma. Ce qui s'est passé entre-temps, deux inspecteurs de police venus à son chevet lui annoncent"));
-        //db.addBook(new Book("1234222", "La vie devant soi", " Romain Gary"));
-        //db.addBook(new Book("8795302", "Madame Bovary", "Gustave Flaubert"));
-        //db.addBook(new Book("5397027", "La promesse de l'aube", "Romain Gary"));
-        //db.addBook(new Book("425397", "L'inconnu", "Jean-Marc"));
-        //db.addBook(new Book("6349732", "A la recherche du succès", "Albert Paul"));
-        //db.addBook(new Book("5329708", "Madame Bovary", "Paul Renard"));
-        //db.addBook(new Book("5329795", "A ne pas oublier", "Julien Le Comte"));
+        }*/
 
 
         /**
@@ -62,7 +55,7 @@ public class DisplayListBooks extends AppCompatActivity {
 
         // get all books
 
-        List<Book> listBook = db.getAllBooks();
+        final List<Book> listBook = db.getAllBooks();
 
         List<Map<String, String>> listOfBook = new ArrayList<>();
 
@@ -75,8 +68,6 @@ public class DisplayListBooks extends AppCompatActivity {
             bookMap.put("isbn",myBook.getIsbn());
             bookMap.put("author", myBook.getAuthor());
             bookMap.put("title", myBook.getTitle());
-            bookMap.put("date", myBook.getDate());
-            bookMap.put("description", myBook.getDescription());
             // mettre tous les dictionnaires , un par un,  dans ma liste
             listOfBook.add(bookMap);
 
@@ -91,28 +82,47 @@ public class DisplayListBooks extends AppCompatActivity {
                         "image",
                         "isbn",
                         "author",
-                        "title",
-                        "date",
-                        "description"},
+                        "title"},
                 new int[]{
                         R.id.id,
                         R.id.imageLivre,
                         R.id.isbn,
                         R.id.author,
-                        R.id.title,
-                        R.id.date,
-                        R.id.description});
+                        R.id.title});
 
 
         mListView.setAdapter(myListAdapter);
 
-        /*for (int i = 0; i < listBook.size(); i++) {
-            db.deleteBook(listBook.get(i));
-        }*/
-        // delete one book
+        // get details of the book clicked
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        // get all books
-        //db.getAllBooks();
+                HashMap<String,String> map =(HashMap<String,String>)mListView.getItemAtPosition(position);
 
+                //Toast.makeText(DisplayListBooks.this, "ID '" + map.get("title") + "' was clicked.", Toast.LENGTH_SHORT).show();
+                String title = map.get("title");
+                Book b=(Book)db.getBook(title);
+                //Toast.makeText(DisplayListBooks.this,b.getId()+" "+b.getAuthor(),Toast.LENGTH_LONG).show();
+
+                Intent i=new Intent(DisplayListBooks.this,DisplayDetailsBook.class);
+                i.putExtra("id",b.getId());
+                startActivity(i);
+
+            }
+        });
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.buttonAdd) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

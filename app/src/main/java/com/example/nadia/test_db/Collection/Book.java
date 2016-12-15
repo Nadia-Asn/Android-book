@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
  * Created by Nadia on 09/11/2016.
  */
 
-public class Book extends Collection{
+public class Book {
 
     private int id;
     private String isbn;
@@ -95,7 +95,7 @@ public class Book extends Collection{
 
     @Override
     public String toString() {
-        return "Book [id=" + id + ", isbn=" + isbn + ", title=" + title + ", author=" + author
+        return "Book [id=" + id + ", isbn=" + isbn + ", title=" + title + ", author=" + author + ", date=" + date + ", description=" + description
                 + "]";
     }
 

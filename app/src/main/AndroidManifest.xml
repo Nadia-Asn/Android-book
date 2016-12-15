@@ -26,6 +26,8 @@
             android:label="Ma bibliothèque"/>
         <activity android:name=".SearchIsbn"
             android:label="Chercher un livre" />
+        <activity android:name=".DisplayDetailsBook"
+            android:label="Détails du livre" />
 
         <activity
             android:name=".com.google.zxing.integration.android.Scanne"

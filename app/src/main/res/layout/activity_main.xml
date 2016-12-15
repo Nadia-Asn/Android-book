@@ -18,18 +18,27 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonAdd"
+            android:id="@+id/buttonDisplay"
             android:layout_gravity="center"
-            android:text="Ajouter un livre"
-            android:layout_marginBottom="25dp"
+            android:text="Ma bibliothèque"
             android:padding="15dp"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonDisplay"
+            android:id="@+id/buttonAddCollection"
             android:layout_gravity="center"
-            android:text="Ma bibliothèque"
+            android:text="Mes collections"
+            android:padding="15dp"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonAdd"
+            android:layout_gravity="center"
+            android:text="Ajouter un livre"
+            android:layout_marginTop="20dp"/>
             android:padding="15dp"/>
 
 
@@ -38,7 +47,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonScanIsbn"
             android:layout_gravity="center"
-            android:text="Scanner un ISBN"
+            android:text="Scanner un livre"
             android:padding="15dp"
             android:layout_marginTop="25dp"/>
 
