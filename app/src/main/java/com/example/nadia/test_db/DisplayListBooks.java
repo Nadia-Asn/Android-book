@@ -6,11 +6,14 @@ package com.example.nadia.test_db;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -18,6 +21,9 @@ import android.widget.Toast;
 import com.example.nadia.test_db.Collection.Book;
 import com.example.nadia.test_db.DataBase.MySQLiteHelper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +59,23 @@ public class DisplayListBooks extends AppCompatActivity {
          * */
 
         // get all books
+/*
+        private void loadImageFromStorage(String path)
+        {
+
+            try {
+                File f=new File(path, "photo1.jpg");
+                Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+                ImageView img=(ImageView)findViewById(R.id.imageLivre);
+                img.setImageBitmap(b);
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+*/
 
         final List<Book> listBook = db.getAllBooks();
 
