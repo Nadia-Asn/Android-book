@@ -3,8 +3,11 @@ package com.example.nadia.test_db.com.google.zxing.integration.android;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +37,7 @@ import com.example.nadia.test_db.DisplayListBooks;
 import com.example.nadia.test_db.R;
 
 import java.io.BufferedInputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -57,6 +61,9 @@ public class Scanne extends AppCompatActivity  {
     private String photoBook;
     private ImageView[] starViews;
 
+    public final static String APP_PATH_SD_CARD = "/DesiredSubfolderName/";
+    public final static String APP_THUMBNAIL_PATH_SD_CARD = "thumbnails";
+
     private Bitmap thumbImg;
 
     MySQLiteHelper db = new MySQLiteHelper(this);
@@ -69,8 +76,8 @@ public class Scanne extends AppCompatActivity  {
         setContentView(R.layout.scan_isbn);
 
         scan_btn = (Button)findViewById(R.id.buttonScan);
-        formatTxt = (TextView)findViewById(R.id.scan_format);
-        contentTxt = (TextView)findViewById(R.id.scan_content);
+        //formatTxt = (TextView)findViewById(R.id.scan_format);
+        //contentTxt = (TextView)findViewById(R.id.scan_content);
 
         ajouterBtn = (Button)findViewById(R.id.ajouter_btn);
 
@@ -82,8 +89,6 @@ public class Scanne extends AppCompatActivity  {
         descriptionText = (EditText) findViewById(R.id.book_description);
         dateText = (EditText) findViewById(R.id.book_date);
         isbnText = (EditText) findViewById(R.id.isbn);
-        starLayout = (LinearLayout)findViewById(R.id.star_layout);
-        ratingCountText = (TextView)findViewById(R.id.book_rating_count);
         thumbView = (ImageView)findViewById(R.id.thumb);
 
         scan_btn.setOnClickListener(new View.OnClickListener() {
@@ -111,9 +116,10 @@ public class Scanne extends AppCompatActivity  {
                     String description = descriptionText.getText().toString();
                     String date = dateText.getText().toString();
                     String isbn = "9796586909";
+                    String imageBook = thumbImg.toString();
                     try {
                         if((author != null && author.length() > 0) && (title != null && title.length() > 0)){
-                            db.addBook(new Book(isbn,title,author,date, description));
+                            db.addBook(new Book(isbn,title,author,date, description,imageBook));
 
                             Intent i = new Intent(context, DisplayListBooks.class);
                             startActivity(i);
@@ -127,10 +133,10 @@ public class Scanne extends AppCompatActivity  {
             }
         });
 
-        starViews=new ImageView[5];
-        for(int s=0; s<starViews.length; s++){
-            starViews[s]=new ImageView(this);
-        }
+
+
+
+
 
 
 
@@ -269,35 +275,6 @@ public class Scanne extends AppCompatActivity  {
                     descriptionText.setText("");
                     jse.printStackTrace();
                 }
-
-                try{
-                //set stars
-                    double decNumStars = Double.parseDouble(volumeObject.getString("averageRating"));
-                    int numStars = (int)decNumStars;
-
-                    starLayout.setTag(numStars);
-                    starLayout.removeAllViews();
-
-                    for(int s=0; s<numStars; s++){
-                        starViews[s].setImageResource(R.drawable.star);
-                        starLayout.addView(starViews[s]);
-                    }
-                }
-                catch(JSONException jse){
-                    starLayout.removeAllViews();
-                    jse.printStackTrace();
-                }
-
-                try{ ratingCountText.setText(" - "+volumeObject.getString("ratingsCount")+" ratings"); }
-                catch(JSONException jse){
-                    ratingCountText.setText("");
-                    jse.printStackTrace();
-                }
-
-
-
-
-
                 try{
                     ajouterBtn.setTag(volumeObject.getString("infoLink"));
                     ajouterBtn.setVisibility(View.VISIBLE);
@@ -310,7 +287,7 @@ public class Scanne extends AppCompatActivity  {
                 try{
                     JSONObject imageInfo = volumeObject.getJSONObject("imageLinks");
                     new GetBookThumb().execute(imageInfo.getString("smallThumbnail"));
-                    saveToInternalStorage(thumbImg,photoBook);
+                    //saveToInternalStorage(thumbImg,photoBook);
                 }
                 catch(JSONException jse){
                     thumbView.setImageBitmap(null);
@@ -329,8 +306,6 @@ public class Scanne extends AppCompatActivity  {
                 authorText.setText("");
                 descriptionText.setText("");
                 dateText.setText("");
-                starLayout.removeAllViews();
-                ratingCountText.setText("");
                 thumbView.setImageBitmap(null);
                 ajouterBtn.setVisibility(View.GONE);
             }
@@ -374,40 +349,41 @@ public class Scanne extends AppCompatActivity  {
 
         protected void onPostExecute(String result) {
             thumbView.setImageBitmap(thumbImg);
-            saveToInternalStorage(thumbImg,"photoBook");
+            saveImageToExternalStorage(thumbImg);
+            //saveToInternalStorage(thumbImg,"photoBook");
 
     }
 
 
+        private boolean saveImageToExternalStorage(Bitmap thumbImg) {
+            String fullPath = Environment.getExternalStorageDirectory().getAbsolutePath() + APP_PATH_SD_CARD + APP_THUMBNAIL_PATH_SD_CARD;
 
-    }
-    private String saveToInternalStorage(Bitmap thumbImg,String photoBook){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,photoBook+".png");
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            thumbImg.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                File dir = new File(fullPath);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                OutputStream fOut = null;
+                File file = new File(fullPath, thumbImg+".png");
+                file.createNewFile();
+                fOut = new FileOutputStream(file);
+
+                thumbImg.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                fOut.flush();
+                fOut.close();
+
+                Context context = getApplicationContext();
+                MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+
+                return true;
+
+            } catch (Exception e) {
+                Log.e("saveToExternalStorage()", e.getMessage());
+                return false;
             }
         }
-        return directory.getAbsolutePath();
+
     }
-
-
-
-
-
 
 }

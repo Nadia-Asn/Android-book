@@ -8,22 +8,27 @@
     android:background="@color/grisBackground">
 
     <Button
-        android:text="Home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/cancel" />
+        android:background="@drawable/home2"
+        android:id="@+id/cancel"
+        android:layout_gravity="right"
+        />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/nomCollection"
         android:layout_gravity="center"
-        android:hint="nom de la catégorie"
+        android:hint="nom de la collection"
         android:layout_marginTop="30dp"
-        android:padding="15dp"/>
+        android:padding="15dp"
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -32,7 +37,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="Valider"
-        android:padding="15dp"/>
+        android:padding="15dp"
+        android:background="@drawable/blue_button"/>
 
 
 

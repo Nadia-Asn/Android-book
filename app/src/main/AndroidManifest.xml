@@ -29,14 +29,14 @@
         <activity android:name=".DisplayDetailsBook"
             android:label="Détails du livre" />
         <activity android:name=".ListToAddBookCollectionActivity"
-            android:label="Ajout d'un livre à une catégorie" />
+            android:label="My Collection " />
         <activity android:name=".DisplayListCollectionActivity"
             android:label="Liste des collections " />
 
         <activity android:name=".ListBookCollectionDisplayActivity"
-            android:label="Livres de la collection" />
+            android:label="My Collection" />
         <activity android:name=".NewCollectionActivity"
-            android:label="Ajout d'une nouvelle collection" />
+            android:label="Nouvelle collection" />
         <activity android:name=".CollectionActivity"
             android:label="Gestion des collections" />
 

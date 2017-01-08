@@ -16,6 +16,26 @@ public class Book {
     private String date;
     private String description;
     private byte[] image;
+    private String image1;
+
+    public Book( String isbn, String title, String author, String date, String description, String image1) {
+        super();
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.date = date;
+        this.description = description;
+        this.image1 = image1;
+    }
+    public Book( String isbn, String title, String author, String date, String description, byte[] image) {
+        super();
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.date = date;
+        this.description = description;
+        this.image=image;
+    }
 
     public Book() {
     }
@@ -29,15 +49,6 @@ public class Book {
         this.description = description;
     }
 
-    public Book( String isbn, String title, String author, String date, String description,byte[] image) {
-        super();
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
-        this.date = date;
-        this.description = description;
-        this.image=image;
-    }
 
     //getters & setters
 
