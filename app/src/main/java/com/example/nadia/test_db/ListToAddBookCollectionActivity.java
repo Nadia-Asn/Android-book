@@ -29,12 +29,10 @@ public class ListToAddBookCollectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_to_add_book_collection);
 
         final MySQLiteHelper db = new MySQLiteHelper(this);
-        final int id1 =(int)getIntent().getIntExtra("id",-1);
-
+        //final int id1 =(int)getIntent().getIntExtra("id",-1);
+        final int id =getIntent().getIntExtra("id",0);
         ListView mListView = (ListView) findViewById(R.id.listToAddBookCollection);
-
         List<Collection> collections = db.getAllCollection();
-
         final String id2 =getIntent().getStringExtra("id");
         //final int id=(int)getIntent().getIntExtra("id",-1);
         List<Map<String, String>> listOfCollection = new ArrayList<>();
@@ -67,7 +65,7 @@ public class ListToAddBookCollectionActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView idCollection=(TextView) view.findViewById(R.id.idCollection);
                 //Log.i("valeur",id);
-                db.addBookInCollection(id1,idCollection.getText().toString());
+                db.addBookInCollection(id,idCollection.getText().toString());
                 Toast.makeText(context,"Livre ajouter à la collection", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(ListToAddBookCollectionActivity.this,MainActivity.class);
                 startActivity(intent);

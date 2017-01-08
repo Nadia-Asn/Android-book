@@ -24,7 +24,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     // Database Name
     private static final String DATABASE_NAME = "BookDB";
@@ -73,7 +73,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             +KEY_NAME_COLLECTION+" TEXT NOT NULL );";
 
     private static final String CREATE_BOOKCOL="CREATE TABLE IF NOT EXISTS "+ TABLE_BC+ " ("
-            +KEY_BC_BOOK+ " INTEGER NOT NULL, " +KEY_ID_COLLECTION+" INTEGER NOT NULL,"
+            +KEY_BC_BOOK+ " INTEGER NOT NULL, " +KEY_BC_COL+" INTEGER NOT NULL,"
             +" FOREIGN KEY ("+KEY_BC_BOOK+") REFERENCES "+TABLE_BOOKS+" ("+KEY_ID+"),"
             +" FOREIGN KEY ("+ KEY_BC_COL +") REFERENCES "+TABLE_COLLECTION+" ("+KEY_ID_COLLECTION+"));";
 
@@ -99,6 +99,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         //db.execSQL(CREATE_BOOKS);
         db.execSQL(CREATE_CATEGORIES);
         db.execSQL(CREATE_COLLECTIONS);
+        db.execSQL(CREATE_BOOKCOL);
     }
 
     @Override
@@ -288,6 +289,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return collections;
     }
 
+    // AJOUT D'UN LIVRE A UNE COLLECTION
+
     public void addBookInCollection(int idBook,String idCollection){
         Log.d("addBookInCOllection",idBook+" to "+idCollection);
         SQLiteDatabase db = this.getWritableDatabase();
@@ -299,18 +302,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 values);
         db.close();
     }
-    /*
-    public void addBookInCollection(String idBook,String idCollection){
-        Log.d("addBookInCOllection",idBook+" to "+idCollection);
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_BC_BOOK,idBook);
-        values.put(KEY_BC_COL, idCollection);
-        db.insert(TABLE_BC,
-                null,
-                values);
-        db.close();
-    }*/
+
 
     // Get All Books
     public List<Book> getBooksByCategory(String category) {

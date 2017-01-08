@@ -30,7 +30,7 @@ public class DisplayDetailsBook extends AppCompatActivity{
         setContentView(R.layout.display_details_book);
 
         final int id=(int)getIntent().getIntExtra("id",-1);
-        Toast.makeText(DisplayDetailsBook.this, "Le livre : " + id + " son id : "+ id, Toast.LENGTH_LONG).show();
+        Toast.makeText(DisplayDetailsBook.this, " l'id à ajouter : "+ id, Toast.LENGTH_LONG).show();
 
         //bouton delete book
         Button b= (Button)findViewById(R.id.delete_btn);
@@ -59,7 +59,7 @@ public class DisplayDetailsBook extends AppCompatActivity{
                 Intent intent =new Intent(DisplayDetailsBook.this,ListToAddBookCollectionActivity.class);
                 //Log.i("id",id);
                 intent.putExtra("id",id);
-                Toast.makeText(DisplayDetailsBook.this, "Le livre : " + book.getTitle() + " son id : "+ book.getId(), Toast.LENGTH_LONG).show();
+                Toast.makeText(DisplayDetailsBook.this, "Le livreAAAA : " + book.getTitle() + " son id : "+ book.getId(), Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
         });
