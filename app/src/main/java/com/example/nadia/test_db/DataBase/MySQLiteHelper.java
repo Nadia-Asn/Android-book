@@ -288,7 +288,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return collections;
     }
 
-    public void addBookInCollection(String idBook,String idCollection){
+    public void addBookInCollection(int idBook,String idCollection){
         Log.d("addBookInCOllection",idBook+" to "+idCollection);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -299,6 +299,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 values);
         db.close();
     }
+    /*
+    public void addBookInCollection(String idBook,String idCollection){
+        Log.d("addBookInCOllection",idBook+" to "+idCollection);
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_BC_BOOK,idBook);
+        values.put(KEY_BC_COL, idCollection);
+        db.insert(TABLE_BC,
+                null,
+                values);
+        db.close();
+    }*/
 
     // Get All Books
     public List<Book> getBooksByCategory(String category) {

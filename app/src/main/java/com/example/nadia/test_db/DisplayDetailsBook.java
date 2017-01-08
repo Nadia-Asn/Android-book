@@ -30,19 +30,11 @@ public class DisplayDetailsBook extends AppCompatActivity{
         setContentView(R.layout.display_details_book);
 
         final int id=(int)getIntent().getIntExtra("id",-1);
-        Button buttonCollection=(Button)findViewById(R.id.addCategoryLivre);
-        buttonCollection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(DisplayDetailsBook.this,ListToAddBookCollectionActivity.class);
-                //Log.i("id",id);
-                intent.putExtra("id",id);
-                startActivity(intent);
-            }
-        });
+        Toast.makeText(DisplayDetailsBook.this, "Le livre : " + id + " son id : "+ id, Toast.LENGTH_LONG).show();
 
         //bouton delete book
         Button b= (Button)findViewById(R.id.delete_btn);
+        Button buttonCollection=(Button)findViewById(R.id.addCategoryLivre);
 
         TextView auteur=(TextView)findViewById(R.id.author);
         TextView title= (TextView)findViewById(R.id.title);
@@ -60,6 +52,17 @@ public class DisplayDetailsBook extends AppCompatActivity{
         isbn.setText(book.getIsbn());
         date.setText(book.getDate());
         description.setText(book.getDescription());
+
+        buttonCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(DisplayDetailsBook.this,ListToAddBookCollectionActivity.class);
+                //Log.i("id",id);
+                intent.putExtra("id",id);
+                Toast.makeText(DisplayDetailsBook.this, "Le livre : " + book.getTitle() + " son id : "+ book.getId(), Toast.LENGTH_LONG).show();
+                startActivity(intent);
+            }
+        });
 
         //Delete of the book
         b.setOnClickListener(new View.OnClickListener()

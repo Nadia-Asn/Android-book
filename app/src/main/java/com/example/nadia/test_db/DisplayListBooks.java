@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -128,7 +129,9 @@ public class DisplayListBooks extends AppCompatActivity {
                 //Toast.makeText(DisplayListBooks.this,b.getId()+" "+b.getAuthor(),Toast.LENGTH_LONG).show();
 
                 Intent i=new Intent(DisplayListBooks.this,DisplayDetailsBook.class);
+                Toast.makeText(DisplayListBooks.this, "Le livre : " + b.getTitle() + " son id : "+ b.getId(), Toast.LENGTH_LONG).show();
                 i.putExtra("id",b.getId());
+                //Log.i("id",id);
                 startActivity(i);
 
             }
