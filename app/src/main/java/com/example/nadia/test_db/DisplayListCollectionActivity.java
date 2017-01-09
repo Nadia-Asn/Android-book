@@ -1,6 +1,8 @@
 package com.example.nadia.test_db;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nadia.test_db.Collection.Collection;
 import com.example.nadia.test_db.DataBase.MySQLiteHelper;
@@ -24,7 +27,7 @@ public class DisplayListCollectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_list_collection);
-        MySQLiteHelper db = new MySQLiteHelper(this);
+        final MySQLiteHelper db = new MySQLiteHelper(this);
         ListView mListView = (ListView) findViewById(R.id.listViewCollection);
         List<Collection> collections = db.getAllCollection();
 
@@ -63,8 +66,60 @@ public class DisplayListCollectionActivity extends AppCompatActivity {
             }
         });
 
+        mListView.setLongClickable(true);
+
+
+        mListView.setAdapter(myListAdapter);
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                
+                final TextView idCollection=(TextView) view.findViewById(R.id.idCollection);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(
+                        DisplayListCollectionActivity.this);
+                alert.setTitle("Alert !!");
+                alert.setMessage("Voulez-vous supprimer cette collection ?");
+                alert.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //do your work here
+
+
+                        int idCol = Integer.valueOf((idCollection.getText()).toString());
+                        db.removeCollection(idCol);
+                        //Toast.makeText(DisplayListCollectionActivity.this, "Collection :  " + idCol + " supprimée", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(DisplayListCollectionActivity.this, CollectionActivity.class);
+                        startActivity(i);
+                        dialog.dismiss();
+
+                    }
+                });
+                alert.setNegativeButton("NON", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+
+
+
+
+                return true;
+            }
+
+        });
+
 
 
     }
+
 
 }

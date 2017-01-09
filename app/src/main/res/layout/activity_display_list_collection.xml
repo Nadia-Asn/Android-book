@@ -16,5 +16,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/listViewCollection" />
+        android:id="@+id/listViewCollection"
+        android:longClickable="true"/>
 </RelativeLayout>

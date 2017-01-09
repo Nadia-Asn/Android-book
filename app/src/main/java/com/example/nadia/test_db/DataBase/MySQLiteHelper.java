@@ -380,6 +380,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_BOOKS, KEY_ID + " = " + id, null);
     }
 
+    // Deleting a collection
+    public int removeCollection(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_COLLECTION, KEY_ID_COLLECTION + " = " + id, null);
+    }
+
     // Deleting single book
     public void deleteBook(Book book) {
 
