@@ -397,5 +397,67 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Log.d("deleteBook", book.toString());
 
     }
+    public Book searchByIsbn(String isbn){
+        String query="SELECT * from "+TABLE_BOOKS+ " where "+KEY_ISBN+"="+isbn;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Book book=null;
+        if (cursor.moveToFirst()) {
+            book = new Book();
+            book.setId(Integer.parseInt(cursor.getString(0)));
+            book.setIsbn(cursor.getString(1));
+            book.setTitle(cursor.getString(2));
+            book.setAuthor(cursor.getString(3));
+            book.setDate(cursor.getString(4));
+            book.setDescription(cursor.getString(5));
+        }
+        return book;
+    }
+    public List<Book> searchByTitle(String title){
+        List<Book> books = new LinkedList<Book>();
+        String query="SELECT * from "+TABLE_BOOKS+ " where "+KEY_TITLE+" like '%"+title+"%'";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Book book = null;
+        if (cursor.moveToFirst()) {
+            do {
+                book = new Book();
+                book.setId(Integer.parseInt(cursor.getString(0)));
+                book.setIsbn(cursor.getString(1));
+                book.setTitle(cursor.getString(2));
+                book.setAuthor(cursor.getString(3));
+                book.setDate(cursor.getString(4));
+                book.setDescription(cursor.getString(5));
+                books.add(book);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllBooks()", books.toString());
+
+        return books;
+    }
+    public List<Book> searchByAuthor(String author){
+        List<Book> books = new LinkedList<Book>();
+        String query="SELECT * from "+TABLE_BOOKS+ " where "+KEY_AUTHOR+" like '%"+author+"%'";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Book book = null;
+        if (cursor.moveToFirst()) {
+            do {
+                book = new Book();
+                book.setId(Integer.parseInt(cursor.getString(0)));
+                book.setIsbn(cursor.getString(1));
+                book.setTitle(cursor.getString(2));
+                book.setAuthor(cursor.getString(3));
+                book.setDate(cursor.getString(4));
+                book.setDescription(cursor.getString(5));
+                books.add(book);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllBooks()", books.toString());
+
+        return books;
+    }
 
 }

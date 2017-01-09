@@ -39,6 +39,9 @@
             android:label="Nouvelle collection" />
         <activity android:name=".CollectionActivity"
             android:label="Gestion des collections" />
+        <activity android:name=".SearchIsbnDisplayActivity" />
+        <activity android:name=".SearchAuteurDisplayActivity" />
+        <activity android:name=".SearchTitleDisplayActivity"/>
 
 
         <activity

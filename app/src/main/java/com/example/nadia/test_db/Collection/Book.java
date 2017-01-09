@@ -16,6 +16,15 @@ public class Book {
     private String date;
     private String description;
     private byte[] image;
+
+    public String getImage1() {
+        return image1;
+    }
+
+    public void setImage1(String image1) {
+        this.image1 = image1;
+    }
+
     private String image1;
 
     public Book( String isbn, String title, String author, String date, String description, String image1) {
