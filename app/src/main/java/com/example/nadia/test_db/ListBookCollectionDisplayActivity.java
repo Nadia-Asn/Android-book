@@ -1,6 +1,8 @@
 package com.example.nadia.test_db;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.example.nadia.test_db.Collection.Book;
 import com.example.nadia.test_db.DataBase.MySQLiteHelper;
 
+import java.net.FileNameMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,6 +98,59 @@ public class ListBookCollectionDisplayActivity extends AppCompatActivity {
 
             }
         });
+
+
+        /************************************************************/
+
+        // Delete the book selected from the collection
+
+        mListView.setAdapter(myListAdapter);
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                           int position, long id) {
+
+                HashMap<String,String> map =(HashMap<String,String>)mListView.getItemAtPosition(position);
+
+                String title = map.get("title");
+                final Book b=(Book)db.getBook(title);
+                final TextView idBook=(TextView) view.findViewById(R.id.id);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(
+                        ListBookCollectionDisplayActivity.this);
+                alert.setTitle("Alert !!");
+                alert.setMessage("Voulez-vous supprimer le livre de cette collection ?");
+                alert.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        int idCol =Integer.valueOf(getIntent().getStringExtra("id"));
+
+                        db.removeBookCollection(b.getId(),idCol);
+                        Intent i = new Intent(ListBookCollectionDisplayActivity.this, MainActivity.class);
+                        startActivity(i);
+                        dialog.dismiss();
+
+                    }
+                });
+                alert.setNegativeButton("NON", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+
+                return true;
+            }
+
+        });
+
 
     }
 }

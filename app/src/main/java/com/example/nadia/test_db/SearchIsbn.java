@@ -1,14 +1,11 @@
 package com.example.nadia.test_db;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * Created by Nadia on 10/11/2016.
@@ -30,7 +27,7 @@ public class SearchIsbn extends AppCompatActivity {
         isbnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SearchIsbn.this,SearchIsbnDisplayActivity.class);
+                Intent intent=new Intent(SearchIsbn.this,SearchByIsbnActivity.class);
                 intent.putExtra("isbn",text.getText().toString());
                 startActivity(intent);
             }
@@ -38,7 +35,7 @@ public class SearchIsbn extends AppCompatActivity {
         auteurButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SearchIsbn.this,SearchAuteurDisplayActivity.class);
+                Intent intent=new Intent(SearchIsbn.this,SearchByAuthorActivity.class);
                 intent.putExtra("auteur",auteur.getText().toString());
                 startActivity(intent);
             }
@@ -46,7 +43,7 @@ public class SearchIsbn extends AppCompatActivity {
         titreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SearchIsbn.this,SearchTitleDisplayActivity.class);
+                Intent intent=new Intent(SearchIsbn.this,SearchByTitleActivity.class);
                 intent.putExtra("titre",titre.getText().toString());
                 startActivity(intent);
             }

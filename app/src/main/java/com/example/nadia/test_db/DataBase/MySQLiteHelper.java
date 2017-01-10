@@ -154,6 +154,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    // Update a book
+
+    public int updateBook(int id, String isbn, String title, String author, String date, String description) {
+        SQLiteDatabase book = this.getWritableDatabase();
+
+        ContentValues values=new ContentValues();
+
+        values.put(KEY_ID, id);
+        values.put(KEY_ISBN, isbn);
+        values.put(KEY_TITLE, title);
+        values.put(KEY_AUTHOR, author);
+        values.put(KEY_DATE, date);
+        values.put(KEY_DESCRIPTION, description);
+        return book.update(TABLE_BOOKS, values, KEY_ID + " = " + id, null);
+    }
+
     // Add of a new collection
     public void addCollection(String collection){
         Log.d("addCollection", collection.toString());
@@ -310,6 +326,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // build the query
         String query = "SELECT  * FROM " + TABLE_BOOKS + ","+TABLE_BC+" where "+KEY_ID+"="+KEY_BC_BOOK+" and "+KEY_BC_COL+"="+category;
+
         // get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -378,6 +395,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public int removeWithID(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_BOOKS, KEY_ID + " = " + id, null);
+    }
+    // Deleting a book
+    public int removeBookCollection(int id,int idCol) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_BC, KEY_ID + " = " + id+" and "+KEY_BC_COL+"="+idCol, null);
     }
 
     // Deleting a collection
@@ -465,5 +487,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         return books;
     }
+
+
+
 
 }

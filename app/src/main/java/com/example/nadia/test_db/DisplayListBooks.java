@@ -5,12 +5,14 @@ package com.example.nadia.test_db;
  */
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nadia.test_db.Collection.Book;
@@ -32,13 +35,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
+
 
 import static com.example.nadia.test_db.com.google.zxing.integration.android.Scanne.APP_PATH_SD_CARD;
 import static com.example.nadia.test_db.com.google.zxing.integration.android.Scanne.APP_THUMBNAIL_PATH_SD_CARD;
 
 
-public class DisplayListBooks extends AppCompatActivity {
+public class DisplayListBooks extends AppCompatActivity  {
 
     private ListView mListView;
     private String labels ;
@@ -53,22 +56,6 @@ public class DisplayListBooks extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.display_book_listview);
 
         final MySQLiteHelper db = new MySQLiteHelper(this);
-
-        // DELETE FOR TEST
-
-        /*List<Book> listBookToDelete = db.getAllBooks();
-        for (int i = 0; i < listBookToDelete.size(); i++) {
-            db.deleteBook(listBookToDelete.get(i));
-        }*/
-
-        /**
-         * CRUD Operations
-         * */
-
-        // get all books
-
-
-
 
         final List<Book> listBook = db.getAllBooks();
 
@@ -100,7 +87,8 @@ public class DisplayListBooks extends AppCompatActivity {
             }*///////////////////////////////
 
             Map<String, String> bookMap = new HashMap<>();
-            bookMap.put("image", myBook.getImage1());
+            bookMap.put("id" , myBook.getId()+"");
+            bookMap.put("image", String.valueOf(R.mipmap.livretest));
             bookMap.put("isbn", myBook.getIsbn());
             bookMap.put("author", myBook.getAuthor());
             bookMap.put("title", myBook.getTitle());
@@ -127,42 +115,90 @@ public class DisplayListBooks extends AppCompatActivity {
                         R.id.title});
 
 
-        mListView.setAdapter(myListAdapter);
+
+        /*******************************************************/
 
         // get details of the book clicked
+
+        mListView.setAdapter(myListAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 HashMap<String, String> map = (HashMap<String, String>) mListView.getItemAtPosition(position);
 
-                //Toast.makeText(DisplayListBooks.this, "ID '" + map.get("title") + "' was clicked.", Toast.LENGTH_SHORT).show();
                 String title = map.get("title");
                 Book b = (Book) db.getBook(title);
-                //Toast.makeText(DisplayListBooks.this,b.getId()+" "+b.getAuthor(),Toast.LENGTH_LONG).show();
 
                 Intent i = new Intent(DisplayListBooks.this, DisplayDetailsBook.class);
-                Toast.makeText(DisplayListBooks.this, "Le livre : " + b.getTitle() + " son id : " + b.getId(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(DisplayListBooks.this, "Le livre : " + b.getTitle() + " son id : " + b.getId(), Toast.LENGTH_LONG).show();
                 i.putExtra("id", b.getId());
                 //Log.i("id",id);
                 startActivity(i);
 
             }
         });
-/*
+
+
+        /*******************************************************/
+
+        // Delete the book selected with a LongClick
+
+        mListView.setAdapter(myListAdapter);
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
             @Override
-            public boolean onItemLongClick(AdapterView                    int arg2, long arg3) {
-                Toast.makeText(getApplicationContext(), "Long Clicked : ", Toast.LENGTH_LONG).show();
-                mListView.remove(arg2);
-                //adapter.notifyDataSetChanged();
-                //adapter.notifyDataSetInvalidated();
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                           int position, long id) {
+
+                final TextView idBook=(TextView) view.findViewById(R.id.id);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(
+                        DisplayListBooks.this);
+                alert.setTitle("Alert !!");
+                alert.setMessage("Voulez-vous vraiment supprimer ce livre ?");
+                alert.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //do your work here
+
+
+                        int idB = Integer.valueOf((idBook.getText()).toString());
+                        db.removeWithID(idB);
+                        //Toast.makeText(DisplayListCollectionActivity.this, "Collection :  " + idCol + " supprimée", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(DisplayListBooks.this, MainActivity.class);
+                        startActivity(i);
+                        dialog.dismiss();
+
+                    }
+                });
+                alert.setNegativeButton("NON", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+
+
+
+
                 return true;
             }
+
         });
 
 
+
     }
+
+
+
+
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         /*public boolean isSdReadable(){
 

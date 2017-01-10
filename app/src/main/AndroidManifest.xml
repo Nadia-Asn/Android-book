@@ -39,9 +39,11 @@
             android:label="Nouvelle collection" />
         <activity android:name=".CollectionActivity"
             android:label="Gestion des collections" />
-        <activity android:name=".SearchIsbnDisplayActivity" />
-        <activity android:name=".SearchAuteurDisplayActivity" />
-        <activity android:name=".SearchTitleDisplayActivity"/>
+        <activity android:name=".UpdateBook"
+            android:label="Modification du livre" />
+        <activity android:name=".SearchByIsbnActivity" />
+        <activity android:name=".SearchByAuthorActivity" />
+        <activity android:name=".SearchByTitleActivity"/>
 
 
         <activity

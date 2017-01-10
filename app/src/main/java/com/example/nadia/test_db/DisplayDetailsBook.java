@@ -1,12 +1,8 @@
 package com.example.nadia.test_db;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,7 +11,6 @@ import android.widget.Toast;
 
 import com.example.nadia.test_db.Collection.Book;
 import com.example.nadia.test_db.DataBase.MySQLiteHelper;
-import android.support.v7.widget.Toolbar;
 
 
 /**
@@ -30,12 +25,13 @@ public class DisplayDetailsBook extends AppCompatActivity{
         setContentView(R.layout.display_details_book);
 
         final int id=(int)getIntent().getIntExtra("id",-1);
-        Toast.makeText(DisplayDetailsBook.this, " l'id à ajouter : "+ id, Toast.LENGTH_LONG).show();
+        //Toast.makeText(DisplayDetailsBook.this, " l'id à ajouter : "+ id, Toast.LENGTH_LONG).show();
 
         //bouton delete book
         Button b= (Button)findViewById(R.id.delete_btn);
         Button buttonCollection=(Button)findViewById(R.id.addCategoryLivre);
 
+        ImageView imgLivre = (ImageView)findViewById(R.id.imageLivre) ;
         TextView auteur=(TextView)findViewById(R.id.author);
         TextView title= (TextView)findViewById(R.id.title);
         TextView isbn=(TextView)findViewById(R.id.isbn);
@@ -47,6 +43,7 @@ public class DisplayDetailsBook extends AppCompatActivity{
         final Book book=(Book)d.getBook(id);
 
         // Display the detail of the book selected
+
         auteur.setText(book.getAuthor());
         title.setText(book.getTitle());
         isbn.setText(book.getIsbn());
@@ -59,20 +56,20 @@ public class DisplayDetailsBook extends AppCompatActivity{
                 Intent intent =new Intent(DisplayDetailsBook.this,ListToAddBookCollectionActivity.class);
                 //Log.i("id",id);
                 intent.putExtra("id",id);
-                Toast.makeText(DisplayDetailsBook.this, "Le livreAAAA : " + book.getTitle() + " son id : "+ book.getId(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(DisplayDetailsBook.this, "Le livre : " + book.getTitle() + " son id : "+ book.getId(), Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
         });
 
-        //Delete of the book
+        //Update of the book selected
         b.setOnClickListener(new View.OnClickListener()
 
         {
             @Override
             public void onClick (View v){
-                d.removeWithID(id);
-                Toast.makeText(DisplayDetailsBook.this, "Le livre " + book.getTitle() + " à été supprimé de la bibliothèque", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(DisplayDetailsBook.this, DisplayListBooks.class);
+                //Toast.makeText(DisplayDetailsBook.this, "Le livre :" + book.getTitle() + " va être modifier ", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(DisplayDetailsBook.this, UpdateBook.class);
+                i.putExtra("id",id);
                 startActivity(i);
 
             }

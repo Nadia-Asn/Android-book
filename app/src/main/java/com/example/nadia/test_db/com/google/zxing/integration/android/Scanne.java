@@ -241,7 +241,7 @@ public class Scanne extends AppCompatActivity  {
                 JSONObject volumeObject = bookObject.getJSONObject("volumeInfo");
 
                 try{
-                    titleText.setText("Titre : "+volumeObject.getString("title")); }
+                    titleText.setText(volumeObject.getString("title")); }
                 catch(JSONException jse){
                     titleText.setText("");
                     jse.printStackTrace();
@@ -254,7 +254,7 @@ public class Scanne extends AppCompatActivity  {
                         if(a>0) authorBuild.append(", ");
                         authorBuild.append(authorArray.getString(a));
                     }
-                    authorText.setText("Auteur : "+authorBuild.toString());
+                    authorText.setText(authorBuild.toString());
                 }
                 catch(JSONException jse){
                     authorText.setText("");
@@ -263,14 +263,14 @@ public class Scanne extends AppCompatActivity  {
 
 
                 try{
-                    dateText.setText("Publié le : "+volumeObject.getString("publishedDate")); }
+                    dateText.setText(volumeObject.getString("publishedDate")); }
                 catch(JSONException jse){
                     dateText.setText("");
                     jse.printStackTrace();
                 }
 
                 try{
-                    descriptionText.setText("Description : "+volumeObject.getString("description")); }
+                    descriptionText.setText(volumeObject.getString("description")); }
                 catch(JSONException jse){
                     descriptionText.setText("");
                     jse.printStackTrace();

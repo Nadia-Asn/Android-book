@@ -21,16 +21,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchAuteurDisplayActivity extends AppCompatActivity {
+public class SearchByTitleActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_auteur_display);
+        setContentView(R.layout.activity_search_title_display);
         final MySQLiteHelper db = new MySQLiteHelper(this);
-        final ListView mListView = (ListView) findViewById(R.id.display_book_listview_search_auteur);
+        final ListView mListView = (ListView) findViewById(R.id.display_book_listview_search_title);
         Intent intent=getIntent();
-        List<Book> listBook=db.searchByAuthor(intent.getStringExtra("auteur"));
+        List<Book> listBook=db.searchByTitle(intent.getStringExtra("titre"));
         List<Map<String, String>> listOfBook = new ArrayList<>();
 
         for (int i = 0; i < listBook.size(); i++) {
@@ -79,8 +79,8 @@ public class SearchAuteurDisplayActivity extends AppCompatActivity {
                 Book b=(Book)db.getBook(title);
                 //Toast.makeText(DisplayListBooks.this,b.getId()+" "+b.getAuthor(),Toast.LENGTH_LONG).show();
 
-                Intent i=new Intent(SearchAuteurDisplayActivity.this,DisplayDetailsBook.class);
-                Toast.makeText(SearchAuteurDisplayActivity.this, "Le livre : " + b.getTitle() + " son id : "+ b.getId(), Toast.LENGTH_LONG).show();
+                Intent i=new Intent(SearchByTitleActivity.this,DisplayDetailsBook.class);
+                Toast.makeText(SearchByTitleActivity.this, "Le livre : " + b.getTitle() + " son id : "+ b.getId(), Toast.LENGTH_LONG).show();
                 i.putExtra("id",b.getId());
                 //Log.i("id",id);
                 startActivity(i);

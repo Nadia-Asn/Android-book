@@ -69,25 +69,28 @@ public class DisplayListCollectionActivity extends AppCompatActivity {
         mListView.setLongClickable(true);
 
 
+        /*******************************************************/
+
+        // DELETE THE COLLECTION SELECTED
+
         mListView.setAdapter(myListAdapter);
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view,
                                            int position, long id) {
-                
+
                 final TextView idCollection=(TextView) view.findViewById(R.id.idCollection);
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(
                         DisplayListCollectionActivity.this);
                 alert.setTitle("Alert !!");
                 alert.setMessage("Voulez-vous supprimer cette collection ?");
+                //si l'utilisateur confirme la suppression
                 alert.setPositiveButton("OUI", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //do your work here
-
 
                         int idCol = Integer.valueOf((idCollection.getText()).toString());
                         db.removeCollection(idCol);
@@ -98,6 +101,7 @@ public class DisplayListCollectionActivity extends AppCompatActivity {
 
                     }
                 });
+                //si l'utilisateur annule la suppression
                 alert.setNegativeButton("NON", new DialogInterface.OnClickListener() {
 
                     @Override

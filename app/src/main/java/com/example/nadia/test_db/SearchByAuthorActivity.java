@@ -1,10 +1,9 @@
 package com.example.nadia.test_db;
 
-import android.support.v7.app.AppCompatActivity;
-
 /**
  * Created by Nadia on 09/01/2017.
  */
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,23 +18,19 @@ import com.example.nadia.test_db.DataBase.MySQLiteHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class SearchIsbnDisplayActivity extends AppCompatActivity{
+public class SearchByAuthorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_isbn_display);
+        setContentView(R.layout.activity_search_auteur_display);
         final MySQLiteHelper db = new MySQLiteHelper(this);
-        final ListView mListView = (ListView) findViewById(R.id.display_book_listview_search_isbn);
+        final ListView mListView = (ListView) findViewById(R.id.display_book_listview_search_auteur);
         Intent intent=getIntent();
-        Book book=db.searchByIsbn(intent.getStringExtra("isbn"));
-        List<Book> listBook=new LinkedList<Book>();
-        if (book!=null)
-            listBook.add(book);
+        List<Book> listBook=db.searchByAuthor(intent.getStringExtra("auteur"));
         List<Map<String, String>> listOfBook = new ArrayList<>();
 
         for (int i = 0; i < listBook.size(); i++) {
@@ -84,8 +79,8 @@ public class SearchIsbnDisplayActivity extends AppCompatActivity{
                 Book b=(Book)db.getBook(title);
                 //Toast.makeText(DisplayListBooks.this,b.getId()+" "+b.getAuthor(),Toast.LENGTH_LONG).show();
 
-                Intent i=new Intent(SearchIsbnDisplayActivity.this,DisplayDetailsBook.class);
-                Toast.makeText(SearchIsbnDisplayActivity.this, "Le livre : " + b.getTitle() + " son id : "+ b.getId(), Toast.LENGTH_LONG).show();
+                Intent i=new Intent(SearchByAuthorActivity.this,DisplayDetailsBook.class);
+                Toast.makeText(SearchByAuthorActivity.this, "Le livre : " + b.getTitle() + " son id : "+ b.getId(), Toast.LENGTH_LONG).show();
                 i.putExtra("id",b.getId());
                 //Log.i("id",id);
                 startActivity(i);
